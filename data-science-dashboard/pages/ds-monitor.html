@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+
+    <!-- JACKY: Set refresh interval by changing the content value -->
+    <meta http-equiv="refresh" content="900">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Data Science | Application Status</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+    <!-- DataTables CSS -->
+    <link href="../vendor/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet">
+
+    <!-- DataTables Responsive CSS -->
+    <link href="../vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+    <div id="wrapper">
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Data Science | Application Status</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Refreshes every 15 minutes - Last updated on:
+                            <span id='currentTime'></span>
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <table width="100%" class="table table-striped table-bordered table-hover" id="status-table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Environment</th>
+                                        <th>URL</th>
+                                        <th>Ping Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody data-bind="foreach: appInfo">
+                                    <tr data-bind="css: {danger: !pingStatus(), success: pingStatus()}">
+                                        <td data-bind="text: name"></td>
+                                        <td data-bind="text: env"></td>
+                                        <td>
+                                            <a data-bind="attr: {href: url}" target="_blank">Manual attempt</a>
+                                        </td>
+                                        <td data-bind="text: pingStatus()"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.panel-body -->
+
+                    </div>
+                    <!-- /.panel -->
+
+                    <div id="example-table"></div>
+
+                    <h3>GETTING STARTED:</h3>
+                    <p>
+                        This is a simple JavaScript application which means you can run this on Chrome without a server. Due to
+                        <a href='https://www.maxcdn.com/one/visual-glossary/cors/' target="_blank">cross-origin policies</a>, you will need to install the
+                        <a href='https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi' target="_blank">'Allow-Control-Allow-Origin:*' chrome extension</a> before using this dashboard.
+                    </p>
+                    <p>
+                        <b>NOTE:</b> This is a temporary dashboard for the Data Science team to check the health of our applications
+                        and APIs. This will be deprecated as soon as we get a more robust solution in place. Email us at
+                        <a href="mailto:DataScienceSS@coyote.com">DataScienceSS@coyote.com</a> for more info.
+                    </p>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /#page-wrapper -->
+
+
+    </div>
+    <!-- /#wrapper -->
+
+
+
+    <!-- jQuery -->
+    <script src="../vendor/jquery/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="../vendor/metisMenu/metisMenu.min.js"></script>
+
+    <!-- DataTables JavaScript -->
+    <script src="../vendor/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="../vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+    <script src="../vendor/datatables-responsive/dataTables.responsive.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="../dist/js/sb-admin-2.js"></script>
+
+    <!-- Page-Level Demo Scripts - Tables - Use for reference -->
+    <script>
+        $(document).ready(function () {
+
+            // JACKY: Just add to appStatusData if you want to 
+            // include it as part of the ping
+            var appStatusData = [
+                {
+                    name: "XGB",
+                    url: "https://www.url-that-doesn't-work-999.com/",
+                    env: "TST"
+                },
+                {
+                    name: "XGB",
+                    url: "https://www.espn.com/",
+                    env: "STG"
+                },
+                {
+                    name: "XGB",
+                    url: "https://www.espn.com/",
+                    env: "FSL"
+                },
+                {
+                    name: "XGB",
+                    url: "https://www.espn.com/",
+                    env: "PRD"
+                },
+                {
+                    name: "TruckNorris",
+                    url: "https://www.url-that-doesn't-work-999.com/",
+                    env: "TST"
+                },
+                {
+                    name: "TruckNorris",
+                    url: "https://www.espn.com/",
+                    env: "STG"
+                },
+                {
+                    name: "TruckNorris",
+                    url: "https://www.espn.com/",
+                    env: "FSL"
+                },
+                {
+                    name: "TruckNorris",
+                    url: "https://www.espn.com/",
+                    env: "PRD"
+                },
+                {
+                    name: "Vulcan",
+                    url: "https://www.url-that-doesn't-work-999.com/",
+                    env: "TST"
+                },
+                {
+                    name: "Vulcan",
+                    url: "https://www.espn.com/",
+                    env: "STG"
+                },
+                {
+                    name: "Vulcan",
+                    url: "https://www.espn.com/",
+                    env: "FSL"
+                },
+                {
+                    name: "Vulcan",
+                    url: "https://www.espn.com/",
+                    env: "PRD"
+                }
+            ];
+
+
+            $('#status-table').DataTable({
+                responsive: true,
+                searching: false,
+                ordering: false,
+                paginate: false,
+                info: false,
+                pageLength: 100
+            });
+
+            var currentTime = new Date().toLocaleString();
+            $("#currentTime").text(currentTime);
+
+
+
+            function AppViewModel() {
+                var self = this;
+                self.appInfo = ko.observableArray(appStatusData);
+                self.appInfo().forEach(app => {
+
+                    app.pingStatus = ko.observable(false);
+                    app.pingStatus(false);
+
+                    $.get(app.url).done(function () {
+                        app.pingStatus(true);
+                    }).fail(function () {
+                        app.pingStatus(false);
+                    });
+                });
+            }
+
+            ko.applyBindings(new AppViewModel());
+        });
+    </script>
+</body>
+
+</html>
